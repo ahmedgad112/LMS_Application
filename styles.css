@@ -1,0 +1,50 @@
+/* Basic reset and body styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4; /* Light gray background */
+    color: #333; /* Dark text color */
+}
+
+header {
+    background-color: #218838; /* Blue header background */
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+main {
+    padding: 20px;
+    text-align: center;
+}
+
+#buttons-section {
+    margin-top: 40px;
+}
+
+button {
+    background-color: #28a745; /* Green button color */
+    color: white;
+    padding: 15px 30px; /* Padding for button size */
+    margin: 10px; /* Space between buttons */
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 16px; /* Font size */
+    cursor: pointer; /* Pointer on hover */
+    transition: background-color 0.3s; /* Smooth color transition */
+}
+
+button:hover {
+    background-color: #218838; /* Darker green on hover */
+}
+
+footer {
+    background-color: #333; /* Dark footer */
+    color: white;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
