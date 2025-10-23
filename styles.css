@@ -23,6 +23,14 @@ main {
     margin-top: 40px;
 }
 
+#coordination-results-section {
+    margin-top: 40px;
+    padding: 20px;
+    background-color: #e8f5e8; /* Light green background */
+    border-radius: 10px; /* Rounded corners */
+    border: 2px solid #28a745; /* Green border */
+}
+
 button {
     background-color: #28a745; /* Green button color */
     color: white;
