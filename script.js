@@ -20,6 +20,17 @@ document.getElementById('btn4').addEventListener('click', function() {
     window.location.href = 'https://batechu.com/grade-four-applications/create';
 });
 
+// Event listeners for coordination results buttons
+document.getElementById('coordination-btn1').addEventListener('click', function() {
+    // Redirect to coordination results for grade 1
+    window.location.href = 'https://batechu.it-club.top/applications/coordination-result';
+});
+document.getElementById('coordination-btn2').addEventListener('click', function() {
+    // Redirect to coordination results for grade 1
+    window.location.href = 'https://batechu.it-club.top/applications/update-student-data';
+});
+
+
 // Optional: Add a simple alert on page load to show JavaScript is working
 window.onload = function() {
     console.log('Landing page loaded successfully!');
