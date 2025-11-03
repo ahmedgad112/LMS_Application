@@ -1,35 +1,136 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#28a745">
+    <meta name="description" content="جامعة برج العرب - نظام التقديم الإلكتروني للفرق الدراسية المختلفة ونتائج التنسيق">
     <title>جامعة برج العرب - اختار الفرقة</title>
     <link rel="shortcut icon" href="download.png" type="image/x-icon">
-    <link rel="stylesheet" href="styles.css"> <!-- Link to CSS file -->
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Simple Loading Overlay -->
+    <div id="page-loader" class="page-loader">
+        <div class="loader-spinner"></div>
+        <p class="loader-text">جاري التحميل...</p>
+    </div>
+
+    <a href="#main-content" class="skip-link">تخطي إلى المحتوى الرئيسي</a>
+    
     <header>
-        <h1>مرحبا بكم في جامعة برج العرب</h1>
-        <p>برجاء استخدام الخدمات المتاحة</p>
+        <div class="header-content">
+            <h1 class="fade-in-up">مرحبا بكم في جامعة برج العرب</h1>
+            <p class="fade-in-up delay-1">برجاء استخدام الخدمات المتاحة</p>
+        </div>
     </header>
     
-    <main>
-        <section id="buttons-section">
-            <h2>اختار الفرقة</h2>
-            <button id="btn1">فرقه اولي</button> <!-- Button 1 -->
-            <button id="btn2">فرقه تانيه</button> <!-- Button 2 -->
-            <button id="btn3">فرقه ثالثه</button> <!-- Button 3 -->
-            <button id="btn4">فرقه رابعه</button> <!-- Button 4 -->
-            
+    <main id="main-content">
+        <section id="buttons-section" class="section-card fade-in-up delay-2" aria-labelledby="choose-grade-title">
+            <div class="section-header">
+                <h2 id="choose-grade-title">
+                    <span class="icon">📚</span>
+                    اختار الفرقة
+                </h2>
+                <p id="choose-grade-desc">اختر فرقتك للانتقال إلى صفحة التقديم المناسبة.</p>
+            </div>
+            <div role="group" class="button-grid" aria-labelledby="choose-grade-title" aria-describedby="choose-grade-desc">
+                <button id="btn1" type="button" class="btn-primary" aria-label="الانتقال إلى تقديم الفرقة الأولى" title="تقديم الفرقة الأولى">
+                    <span class="btn-icon">1️⃣</span>
+                    <span class="btn-text">فرقه اولي</span>
+                    <span class="btn-arrow">→</span>
+                </button>
+                <button id="btn2" type="button" class="btn-primary" aria-label="الانتقال إلى تقديم الفرقة الثانية" title="تقديم الفرقة الثانية">
+                    <span class="btn-icon">2️⃣</span>
+                    <span class="btn-text">فرقه تانيه</span>
+                    <span class="btn-arrow">→</span>
+                </button>
+                <button id="btn3" type="button" class="btn-primary" aria-label="الانتقال إلى تقديم الفرقة الثالثة" title="تقديم الفرقة الثالثة">
+                    <span class="btn-icon">3️⃣</span>
+                    <span class="btn-text">فرقه ثالثه</span>
+                    <span class="btn-arrow">→</span>
+                </button>
+                <button id="btn4" type="button" class="btn-primary" aria-label="الانتقال إلى تقديم الفرقة الرابعة" title="تقديم الفرقة الرابعة">
+                    <span class="btn-icon">4️⃣</span>
+                    <span class="btn-text">فرقه رابعه</span>
+                    <span class="btn-arrow">→</span>
+                </button>
+            </div>
         </section>
 
-        <section id="coordination-results-section">
-            <h2>نتيجة التنسيق و تحديث البيانات </h2>
-            <button id="coordination-btn1">نتيجة التنسيق - الفرقة الأولى</button>
-            <button id="coordination-btn2"> تحديث بيانات </button>
+        <section id="coordination-results-section" class="section-card fade-in-up delay-3" aria-labelledby="coordination-title">
+            <div class="section-header">
+                <h2 id="coordination-title">
+                    <span class="icon">📊</span>
+                    نتيجة التنسيق و تحديث البيانات
+                </h2>
+                <p id="coordination-desc">استعرض نتائج التنسيق أو قم بتحديث بياناتك الطلابية.</p>
+            </div>
+            <div role="group" class="button-grid" aria-labelledby="coordination-title" aria-describedby="coordination-desc">
+                <button id="coordination-btn1" type="button" class="btn-secondary" aria-label="عرض نتيجة التنسيق للفرقة الأولى" title="نتيجة التنسيق - الفرقة الأولى">
+                    <span class="btn-icon">📋</span>
+                    <span class="btn-text">نتيجة التنسيق - الفرقة الأولى</span>
+                    <span class="btn-arrow">→</span>
+                </button>
+                <button id="coordination-btn2" type="button" class="btn-secondary" aria-label="تحديث بيانات الطالب" title="تحديث بيانات">
+                    <span class="btn-icon">✏️</span>
+                    <span class="btn-text">تحديث بيانات</span>
+                    <span class="btn-arrow">→</span>
+                </button>
+            </div>
         </section>
+
+        <section id="complaints-section" class="section-card fade-in-up delay-4" aria-labelledby="complaints-title">
+            <div class="section-header">
+                <h2 id="complaints-title">
+                    <span class="icon">💬</span>
+                    اكتب الشكوى الخاصة بك
+                </h2>
+                <p id="complaints-desc">سنقوم بمراجعة الشكوى والرد عليك في أقرب وقت.</p>
+            </div>
+            <div role="group" class="button-grid" aria-labelledby="complaints-title" aria-describedby="complaints-desc">
+                <button id="complaints-btn" class="btn-danger" type="button" aria-label="فتح نموذج الشكاوي" title="فتح نموذج الشكاوي">
+                    <span class="btn-icon">📝</span>
+                    <span class="btn-text">للشكاوي</span>
+                    <span class="btn-arrow">→</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- <section id="payment-section" class="section-card fade-in-up delay-5" aria-labelledby="payment-title">
+            <div class="section-header">
+                <h2 id="payment-title">
+                    <span class="icon">💳</span>
+                    الدفع الإلكتروني
+                </h2>
+                <p id="payment-desc">اختر طريقة الدفع المناسبة لك وقم بإتمام عملية الدفع.</p>
+            </div>
+            <div role="group" class="button-grid" aria-labelledby="payment-title" aria-describedby="payment-desc">   
+                <button id="instapay-btn" class="btn-payment" type="button" aria-label="الدفع عبر Insta Pay" title="Insta Pay">
+                    <span class="btn-icon">💵</span>
+                    <span class="btn-text">Insta Pay</span>
+                    <span class="btn-arrow">→</span>
+                </button>
+                <button id="vodafone-cash-btn" class="btn-payment" type="button" aria-label="الدفع عبر Vodafone Cash" title="Vodafone Cash">
+                    <span class="btn-icon">📱</span>
+                    <span class="btn-text">Vodafone Cash</span>
+                    <span class="btn-arrow">→</span>
+                </button>
+                <button id="sign-up-btn" class="btn-payment" type="button" aria-label="إرسال السكريبت بعد الدفع" title="إرسال السكريبت بعد الدفع">
+                    <span class="btn-icon">📤</span>
+                    <span class="btn-text">ابعت اسكريين بعد الدفع</span>
+                    <span class="btn-arrow">→</span>
+                </button>
+            </div>
+        </section> -->
     </main>
 
-    <script src="script.js"></script> <!-- Link to JS file -->
+    <!-- Button Loading Indicator -->
+    <div id="button-loader" class="button-loader" aria-hidden="true">
+        <div class="button-spinner"></div>
+        <p>جاري التوجيه...</p>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
