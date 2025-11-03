@@ -97,7 +97,7 @@ function redirectToUrl(url, buttonId = null) {
 function addButtonListener(buttonId, callback) {
     const button = document.getElementById(buttonId);
     if (!button) {
-        console.warn(`Button "${buttonId}" not found`);
+        // Silently skip if button doesn't exist (e.g., commented out payment section)
         return;
     }
 
@@ -119,16 +119,23 @@ function addButtonListener(buttonId, callback) {
  * Initialize all buttons
  */
 function initializeButtons() {
+    // Grade application buttons
     addButtonListener('btn1', () => redirectToUrl(APPLICATION_URLS.grade1, 'btn1'));
     addButtonListener('btn2', () => redirectToUrl(APPLICATION_URLS.grade2, 'btn2'));
     addButtonListener('btn3', () => redirectToUrl(APPLICATION_URLS.grade3, 'btn3'));
     addButtonListener('btn4', () => redirectToUrl(APPLICATION_URLS.grade4, 'btn4'));
+    
+    // Coordination results buttons
     addButtonListener('coordination-btn1', () => redirectToUrl(APPLICATION_URLS.coordinationResult, 'coordination-btn1'));
     addButtonListener('coordination-btn2', () => redirectToUrl(APPLICATION_URLS.updateStudentData, 'coordination-btn2'));
+    
+    // Complaints button
     addButtonListener('complaints-btn', () => redirectToUrl(APPLICATION_URLS.complaints, 'complaints-btn'));
-    addButtonListener('instapay-btn', () => redirectToUrl(APPLICATION_URLS.instapay, 'instapay-btn'));
-    addButtonListener('vodafone-cash-btn', () => redirectToUrl(APPLICATION_URLS.vodafoneCash, 'vodafone-cash-btn'));
-    addButtonListener('sign-up-btn', () => redirectToUrl(APPLICATION_URLS.signUpAfterPayment, 'sign-up-btn'));
+    
+    // Payment buttons (commented out - only initialize if payment section is enabled)
+    // addButtonListener('instapay-btn', () => redirectToUrl(APPLICATION_URLS.instapay, 'instapay-btn'));
+    // addButtonListener('vodafone-cash-btn', () => redirectToUrl(APPLICATION_URLS.vodafoneCash, 'vodafone-cash-btn'));
+    // addButtonListener('sign-up-btn', () => redirectToUrl(APPLICATION_URLS.signUpAfterPayment, 'sign-up-btn'));
 }
 
 /**
