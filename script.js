@@ -5,7 +5,7 @@
 
 // Application URLs configuration
 const APPLICATION_URLS = {
-    grade1: 'https://batechu.it-club.top/applications/create',
+    grade1: 'https://batechu.com/applications/create',
     grade2: 'https://batechu.com/grade-two-applications/create',
     grade3: 'https://batechu.com/grade-three-applications/create',
     grade4: 'https://batechu.com/grade-four-applications/create',
@@ -166,3 +166,4 @@ function initPage() {
 
 // Start
 initializePage();
+
