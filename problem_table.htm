@@ -158,10 +158,77 @@
             font-weight: 600;
         }
 
+        /* بطاقات للشاشات الصغيرة */
+        .data-cards {
+            display: none;
+            margin-top: 1rem;
+            gap: 1rem;
+        }
+
+        .data-card {
+            background: white;
+            border-radius: var(--border-radius-sm);
+            padding: 1.25rem;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(16, 185, 129, 0.15);
+            transition: var(--transition);
+        }
+
+        .data-card:hover {
+            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.15);
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+
+        .data-card-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(16, 185, 129, 0.08);
+            font-size: 0.95rem;
+        }
+
+        .data-card-row:last-of-type {
+            border-bottom: none;
+        }
+
+        .data-card-label {
+            font-weight: 700;
+            color: var(--primary-dark);
+            min-width: 100px;
+            flex-shrink: 0;
+        }
+
+        .data-card-value {
+            color: var(--text-primary);
+            text-align: left;
+            word-break: break-word;
+        }
+
+        .data-card-actions {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(16, 185, 129, 0.12);
+        }
+
+        .data-card-actions .delete-btn {
+            width: 100%;
+        }
+
         @media (max-width: 768px) {
             .data-table-container {
                 padding: 1.5rem;
                 margin: 1rem;
+            }
+
+            .data-table-wrapper {
+                display: none !important;
+            }
+
+            .data-cards {
+                display: flex !important;
+                flex-direction: column;
             }
 
             .data-table {
@@ -183,6 +250,12 @@
             .view-data-btn {
                 width: 100%;
                 margin-left: 0;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .data-cards {
+                display: none !important;
             }
         }
     </style>
@@ -302,22 +375,34 @@
                 'fourth': 'فرقة رابعة'
             };
 
+            const labels = {
+                index: '#',
+                fullName: 'الاسم',
+                nationalId: 'رقم القومي',
+                seatNumber: 'رقم الجلوس',
+                phone: 'رقم الهاتف',
+                grade: 'الفرقة',
+                problemDescription: 'وصف المشكلة',
+                reportDate: 'تاريخ البلاغ'
+            };
+
             let tableHTML = `
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>الاسم</th>
-                            <th>رقم القومي</th>
-                            <th>رقم الجلوس</th>
-                            <th>رقم الهاتف</th>
-                            <th>الفرقة</th>
-                            <th>وصف المشكلة</th>
-                            <th>تاريخ البلاغ</th>
-                            <th>إجراءات</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                <div class="data-table-wrapper">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>الاسم</th>
+                                <th>رقم القومي</th>
+                                <th>رقم الجلوس</th>
+                                <th>رقم الهاتف</th>
+                                <th>الفرقة</th>
+                                <th>وصف المشكلة</th>
+                                <th>تاريخ البلاغ</th>
+                                <th>إجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
             `;
 
             reports.forEach((report, index) => {
@@ -339,11 +424,64 @@
             });
 
             tableHTML += `
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="data-cards" role="list">
             `;
 
+            reports.forEach((report, index) => {
+                const desc = report.problemDescription || '-';
+                const descShort = desc.length > 80 ? desc.substring(0, 80) + '...' : desc;
+                tableHTML += `
+                    <article class="data-card" role="listitem">
+                        <div class="data-card-row">
+                            <span class="data-card-label">${labels.index}</span>
+                            <span class="data-card-value">${index + 1}</span>
+                        </div>
+                        <div class="data-card-row">
+                            <span class="data-card-label">${labels.fullName}</span>
+                            <span class="data-card-value">${report.fullName || '-'}</span>
+                        </div>
+                        <div class="data-card-row">
+                            <span class="data-card-label">${labels.nationalId}</span>
+                            <span class="data-card-value">${report.nationalId || '-'}</span>
+                        </div>
+                        <div class="data-card-row">
+                            <span class="data-card-label">${labels.seatNumber}</span>
+                            <span class="data-card-value">${report.seatNumber || '-'}</span>
+                        </div>
+                        <div class="data-card-row">
+                            <span class="data-card-label">${labels.phone}</span>
+                            <span class="data-card-value">${report.phone || '-'}</span>
+                        </div>
+                        <div class="data-card-row">
+                            <span class="data-card-label">${labels.grade}</span>
+                            <span class="data-card-value">${gradeNames[report.grade] || report.grade || '-'}</span>
+                        </div>
+                        <div class="data-card-row">
+                            <span class="data-card-label">${labels.problemDescription}</span>
+                            <span class="data-card-value">${escapeHtml(descShort)}</span>
+                        </div>
+                        <div class="data-card-row">
+                            <span class="data-card-label">${labels.reportDate}</span>
+                            <span class="data-card-value">${report.reportDate || '-'}</span>
+                        </div>
+                        <div class="data-card-actions">
+                            <button class="delete-btn" onclick="deleteData(${report.id})">حذف البلاغ</button>
+                        </div>
+                    </article>
+                `;
+            });
+
+            tableHTML += '</div>';
             tableWrapper.innerHTML = tableHTML;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
         }
 
         // دالة لتصدير البيانات كـ CSV
