@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#28a745">
     <meta name="description" content="جامعة برج العرب - نظام التقديم الإلكتروني للفرق الدراسية المختلفة ونتائج التنسيق">
     <title>جامعة برج العرب - اختار الفرقة</title>
@@ -47,20 +47,45 @@
             </div>
         </section>
 
-        <section id="coordination-results-section" class="section-card fade-in-up delay-3" aria-labelledby="coordination-title">
+        <section id="payment-section" class="section-card fade-in-up delay-3" aria-labelledby="payment-title">
             <div class="section-header">
-                <h2 id="coordination-title">نتيجة التنسيق و تحديث البيانات</h2>
-                <p id="coordination-desc">استعرض نتائج التنسيق أو قم بتحديث بياناتك الطلابية.</p>
+                <h2 id="payment-title">دفع أونلاين</h2>
+                <p id="payment-desc">اختر طريقة الدفع المناسبة عبر Tap (محافظ إلكترونية أو انستا باي).</p>
             </div>
-            <div role="group" class="button-grid" aria-labelledby="coordination-title" aria-describedby="coordination-desc">
-                <button id="coordination-btn1" type="button" class="btn-secondary" aria-label="عرض نتيجة التنسيق للفرقة الأولى" title="نتيجة التنسيق - الفرقة الأولى">
-                    <span class="btn-text">نتيجة التنسيق - الفرقة الأولى</span>
-                </button>
-                <button id="coordination-btn2" type="button" class="btn-secondary" aria-label="تحديث بيانات الطالب" title="تحديث بيانات">
-                    <span class="btn-text">تحديث بيانات</span>
+            <div role="group" class="payment-actions" aria-labelledby="payment-title" aria-describedby="payment-desc">
+                <button id="payment-btn1" type="button" class="btn-payment-trigger" aria-label="فتح خيارات الدفع" title="اضغط هنا للدفع">
+                    <span class="btn-icon">💳</span>
+                    <span class="btn-text">اضغط هنا للدفع</span>
                 </button>
             </div>
         </section>
+
+        <!-- نافذة اختيار طريقة الدفع (Tap) -->
+        <div id="payment-modal" class="payment-modal" role="dialog" aria-modal="true" aria-labelledby="payment-modal-title" aria-hidden="true">
+            <div class="payment-modal-backdrop" id="payment-modal-backdrop"></div>
+            <div class="payment-modal-box">
+                <div class="payment-modal-header">
+                    <h3 id="payment-modal-title">اختر طريقة الدفع</h3>
+                    <button type="button" class="payment-modal-close" id="payment-modal-close" aria-label="إغلاق">×</button>
+                </div>
+                <div class="payment-modal-body">
+                    <p class="payment-modal-desc">اختر الدفع عبر Tap:</p>
+                    <div class="payment-methods">
+                        <button type="button" class="payment-method-card" id="payment-method-wallets" data-method="wallets" aria-label="الدفع عبر المحافظ الإلكترونية">
+                            <span class="payment-method-icon">👛</span>
+                            <span class="payment-method-label">محافظ إلكترونية</span>
+                            <span class="payment-method-hint">فودافون كاش، اورنج كاش، وغيرها</span>
+                        </button>
+                        <button type="button" class="payment-method-card" id="payment-method-instapay" data-method="instapay" aria-label="الدفع عبر انستا باي">
+                            <span class="payment-method-icon">⚡</span>
+                            <span class="payment-method-label">انستا باي</span>
+                            <span class="payment-method-hint">دفع فوري عبر انستا باي</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
         <section id="complaints-section" class="section-card fade-in-up delay-4" aria-labelledby="complaints-title">
             <div class="section-header">
@@ -73,27 +98,7 @@
                 </button>
             </div>
         </section>
-
-        <!-- Payment section is commented out -->
-        <!-- <section id="payment-section" class="section-card fade-in-up delay-5" aria-labelledby="payment-title">
-            <div class="section-header">
-                <h2 id="payment-title">الدفع الإلكتروني</h2>
-                <p id="payment-desc">اختر طريقة الدفع المناسبة لك وقم بإتمام عملية الدفع.</p>
-            </div>
-            <div role="group" class="button-grid" aria-labelledby="payment-title" aria-describedby="payment-desc">   
-                <button id="instapay-btn" class="btn-payment" type="button" aria-label="الدفع عبر Insta Pay" title="Insta Pay">
-                    <span class="btn-text">Insta Pay</span>
-                </button>
-                <button id="vodafone-cash-btn" class="btn-payment" type="button" aria-label="الدفع عبر Vodafone Cash" title="Vodafone Cash">
-                    <span class="btn-text">Vodafone Cash</span>
-                </button>
-                <button id="sign-up-btn" class="btn-payment" type="button" aria-label="إرسال السكريبت بعد الدفع" title="إرسال السكريبت بعد الدفع">
-                    <span class="btn-text">ابعت اسكريين بعد الدفع</span>
-                </button>
-            </div>
-        </section> -->
     </main>
-
     <!-- Button Loading Indicator -->
     <div id="button-loader" class="button-loader" aria-hidden="true">
         <div class="button-spinner"></div>

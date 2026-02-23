@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#28a745">
+    <meta name="description" content="جامعة برج العرب - عرض البلاغات المحفوظة">
+    <title>جامعة برج العرب - البلاغات المحفوظة</title>
+    <link rel="shortcut icon" href="download.png" type="image/x-icon">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .data-table-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius);
+            padding: 2.5rem;
+            box-shadow: var(--card-shadow);
+            border: 2px solid var(--card-border);
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .form-header h1 {
+            font-size: clamp(1.75rem, 4vw, 2.25rem);
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+            font-weight: 800;
+        }
+
+        .form-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .back-link:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+
+        .view-data-btn {
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            margin-left: 1rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--secondary-gradient);
+            color: white;
+            text-decoration: none;
+            border-radius: var(--border-radius-sm);
+            font-weight: 600;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .view-data-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+            background: white;
+            border-radius: var(--border-radius-sm);
+            overflow: hidden;
+        }
+
+        .data-table thead {
+            background: var(--primary-gradient);
+            color: white;
+        }
+
+        .data-table th {
+            padding: 1rem;
+            text-align: right;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .data-table td {
+            padding: 0.875rem 1rem;
+            border-bottom: 1px solid rgba(16, 185, 129, 0.1);
+            text-align: right;
+        }
+
+        .data-table tbody tr {
+            transition: var(--transition);
+        }
+
+        .data-table tbody tr:hover {
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        .data-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .delete-btn {
+            background: var(--accent-gradient);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius-sm);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            font-size: 0.875rem;
+        }
+
+        .delete-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+            gap: 1rem;
+        }
+
+        .stats-info {
+            background: rgba(16, 185, 129, 0.1);
+            padding: 1rem;
+            border-radius: var(--border-radius-sm);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .data-table-container {
+                padding: 1.5rem;
+                margin: 1rem;
+            }
+
+            .data-table {
+                font-size: 0.875rem;
+                display: block;
+                overflow-x: auto;
+            }
+
+            .data-table th,
+            .data-table td {
+                padding: 0.5rem;
+                white-space: nowrap;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .view-data-btn {
+                width: 100%;
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="data-table-container fade-in-up">
+        <div class="action-buttons">
+            <div>
+                <a href="index.htm" class="back-link">← العودة للصفحة الرئيسية</a>
+                <a href="Problem.htm" class="back-link" style="margin-right: 1rem;">← العودة للنموذج</a>
+            </div>
+            <div>
+                <button type="button" class="view-data-btn" onclick="exportToCSV()" style="background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);">تصدير البيانات (CSV)</button>
+                <button type="button" class="view-data-btn" onclick="refreshTable()" style="background: var(--primary-gradient);">تحديث الجدول</button>
+                <button type="button" class="view-data-btn" onclick="clearAllData()" style="background: var(--accent-gradient);">حذف جميع البيانات</button>
+            </div>
+        </div>
+
+        <div class="form-header">
+            <h1>البلاغات المحفوظة</h1>
+            <p>جميع البلاغات عن المشاكل المحفوظة</p>
+        </div>
+
+        <div id="statsInfo" class="stats-info"></div>
+        <div id="tableWrapper"></div>
+    </div>
+
+    <script>
+        // دالة للحصول على البيانات من localStorage
+        function getStoredData() {
+            const data = localStorage.getItem('problemReports');
+            return data ? JSON.parse(data) : [];
+        }
+
+        // دالة لحذف بيانات
+        function deleteData(id) {
+            if (confirm('هل أنت متأكد من حذف هذا البلاغ؟')) {
+                const reports = getStoredData();
+                const filtered = reports.filter(item => item.id !== id);
+                localStorage.setItem('problemReports', JSON.stringify(filtered));
+                displayDataTable();
+            }
+        }
+
+        // دالة لحذف جميع البيانات
+        function clearAllData() {
+            if (confirm('هل أنت متأكد من حذف جميع البلاغات؟ لا يمكن التراجع عن هذا الإجراء!')) {
+                localStorage.removeItem('problemReports');
+                displayDataTable();
+                alert('تم حذف جميع البلاغات بنجاح');
+            }
+        }
+
+        // دالة لتحديث الجدول
+        function refreshTable() {
+            displayDataTable();
+        }
+
+        // دالة لعرض إحصائيات
+        function displayStats() {
+            const reports = getStoredData();
+            const statsDiv = document.getElementById('statsInfo');
+            
+            if (reports.length === 0) {
+                statsDiv.style.display = 'none';
+                return;
+            }
+
+            const gradeCounts = {
+                'first': 0,
+                'second': 0,
+                'third': 0,
+                'fourth': 0
+            };
+
+            reports.forEach(report => {
+                if (report.grade && gradeCounts.hasOwnProperty(report.grade)) {
+                    gradeCounts[report.grade]++;
+                }
+            });
+
+            const gradeNames = {
+                'first': 'فرقة أولى',
+                'second': 'فرقة ثانية',
+                'third': 'فرقة ثالثة',
+                'fourth': 'فرقة رابعة'
+            };
+
+            let statsHTML = `إجمالي البلاغات: <strong>${reports.length}</strong> | `;
+            statsHTML += Object.keys(gradeCounts).map(grade => {
+                if (gradeCounts[grade] > 0) {
+                    return `${gradeNames[grade]}: ${gradeCounts[grade]}`;
+                }
+                return '';
+            }).filter(s => s).join(' | ');
+
+            statsDiv.innerHTML = statsHTML;
+            statsDiv.style.display = 'block';
+        }
+
+        // دالة لعرض الجدول
+        function displayDataTable() {
+            const reports = getStoredData();
+            const tableWrapper = document.getElementById('tableWrapper');
+            
+            displayStats();
+
+            if (reports.length === 0) {
+                tableWrapper.innerHTML = '<div class="no-data">لا توجد بلاغات محفوظة</div>';
+                return;
+            }
+
+            const gradeNames = {
+                'first': 'فرقة أولى',
+                'second': 'فرقة ثانية',
+                'third': 'فرقة ثالثة',
+                'fourth': 'فرقة رابعة'
+            };
+
+            let tableHTML = `
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>الاسم</th>
+                            <th>رقم القومي</th>
+                            <th>رقم الجلوس</th>
+                            <th>رقم الهاتف</th>
+                            <th>الفرقة</th>
+                            <th>وصف المشكلة</th>
+                            <th>تاريخ البلاغ</th>
+                            <th>إجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            reports.forEach((report, index) => {
+                tableHTML += `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${report.fullName || '-'}</td>
+                        <td>${report.nationalId || '-'}</td>
+                        <td>${report.seatNumber || '-'}</td>
+                        <td>${report.phone || '-'}</td>
+                        <td>${gradeNames[report.grade] || report.grade || '-'}</td>
+                        <td>${(report.problemDescription || '-').substring(0, 50)}${(report.problemDescription || '').length > 50 ? '...' : ''}</td>
+                        <td>${report.reportDate || '-'}</td>
+                        <td>
+                            <button class="delete-btn" onclick="deleteData(${report.id})">حذف</button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            tableHTML += `
+                    </tbody>
+                </table>
+            `;
+
+            tableWrapper.innerHTML = tableHTML;
+        }
+
+        // دالة لتصدير البيانات كـ CSV
+        function exportToCSV() {
+            const reports = getStoredData();
+            if (reports.length === 0) {
+                alert('لا توجد بلاغات للتصدير');
+                return;
+            }
+
+            const gradeNames = {
+                'first': 'فرقة أولى',
+                'second': 'فرقة ثانية',
+                'third': 'فرقة ثالثة',
+                'fourth': 'فرقة رابعة'
+            };
+
+            let csv = 'الاسم,رقم القومي,رقم الجلوس,رقم الهاتف,الفرقة,وصف المشكلة,تاريخ البلاغ\n';
+            
+            reports.forEach(report => {
+                csv += `"${report.fullName || ''}","${report.nationalId || ''}","${report.seatNumber || ''}","${report.phone || ''}","${gradeNames[report.grade] || report.grade || ''}","${(report.problemDescription || '').replace(/"/g, '""')}","${report.reportDate || ''}"\n`;
+            });
+
+            const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'problem_reports_' + new Date().getTime() + '.csv';
+            link.click();
+        }
+
+        // تحميل الجدول عند فتح الصفحة
+        window.addEventListener('DOMContentLoaded', function() {
+            displayDataTable();
+        });
+
+        // تحديث الجدول تلقائياً كل 5 ثوان (اختياري)
+        // setInterval(displayDataTable, 5000);
+    </script>
+</body>
+</html>
+

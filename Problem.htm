@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#28a745">
+    <meta name="description" content="جامعة برج العرب - نموذج الإبلاغ عن المشاكل">
+    <title>جامعة برج العرب - نموذج الإبلاغ عن المشاكل</title>
+    <link rel="shortcut icon" href="download.png" type="image/x-icon">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .form-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius);
+            padding: 2.5rem;
+            box-shadow: var(--card-shadow);
+            border: 2px solid var(--card-border);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="tel"],
+        .form-group input[type="number"],
+        .form-group input[type="date"],
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 2px solid rgba(16, 185, 129, 0.2);
+            border-radius: var(--border-radius-sm);
+            font-size: 1rem;
+            font-family: inherit;
+            background: white;
+            color: var(--text-primary);
+            transition: var(--transition);
+            direction: rtl;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .required {
+            color: var(--accent-color);
+            margin-right: 0.25rem;
+        }
+
+        .form-submit {
+            width: 100%;
+            padding: 1.25rem 2rem;
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius-sm);
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+            margin-top: 1.5rem;
+        }
+
+        .form-submit:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+        }
+
+        .form-submit:active {
+            transform: translateY(-1px) scale(1);
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .form-header h1 {
+            font-size: clamp(1.75rem, 4vw, 2.25rem);
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+            font-weight: 800;
+        }
+
+        .form-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .back-link:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+
+        .view-data-btn {
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            margin-left: 1rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--secondary-gradient);
+            color: white;
+            text-decoration: none;
+            border-radius: var(--border-radius-sm);
+            font-weight: 600;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+
+        .view-data-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+        }
+
+        .data-table-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius);
+            padding: 2.5rem;
+            box-shadow: var(--card-shadow);
+            border: 2px solid var(--card-border);
+            display: none;
+        }
+
+        .data-table-container.show {
+            display: block;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+            background: white;
+            border-radius: var(--border-radius-sm);
+            overflow: hidden;
+        }
+
+        .data-table thead {
+            background: var(--primary-gradient);
+            color: white;
+        }
+
+        .data-table th {
+            padding: 1rem;
+            text-align: right;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .data-table td {
+            padding: 0.875rem 1rem;
+            border-bottom: 1px solid rgba(16, 185, 129, 0.1);
+            text-align: right;
+        }
+
+        .data-table tbody tr {
+            transition: var(--transition);
+        }
+
+        .data-table tbody tr:hover {
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        .data-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .delete-btn {
+            background: var(--accent-gradient);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius-sm);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            font-size: 0.875rem;
+        }
+
+        .delete-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 768px) {
+            .form-container {
+                padding: 1.5rem;
+                margin: 1rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .data-table-container {
+                padding: 1.5rem;
+                margin: 1rem;
+            }
+
+            .data-table {
+                font-size: 0.875rem;
+            }
+
+            .data-table th,
+            .data-table td {
+                padding: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container fade-in-up">
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; margin-bottom: 1.5rem;">
+            <a href="index.htm" class="back-link">← العودة للصفحة الرئيسية</a>
+        </div>
+        
+        <div class="form-header">
+            <h1>نموذج الإبلاغ عن المشاكل</h1>
+            <p>يرجى ملء جميع الحقول المطلوبة للإبلاغ عن المشكلة</p>
+        </div>
+
+        <form method="POST" action="#" id="problemForm">
+            <div class="form-group">
+                <label for="problemDescription">وصف المشكلة <span class="required">*</span></label>
+                <textarea id="problemDescription" name="problemDescription" required placeholder="يرجى وصف المشكلة بالتفصيل..." minlength="10"></textarea>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="fullName">الاسم <span class="required">*</span></label>
+                    <input type="text" id="fullName" name="fullName" required placeholder="أدخل اسمك الكامل">
+                </div>
+
+                <div class="form-group">
+                    <label for="nationalId">رقم القومي <span class="required">*</span></label>
+                    <input type="text" id="nationalId" name="nationalId" required pattern="[0-9]{14}" maxlength="14" placeholder="14 رقم">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="seatNumber">رقم الجلوس <span class="required">*</span></label>
+                    <input type="text" id="seatNumber" name="seatNumber" required placeholder="أدخل رقم الجلوس">
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">رقم الهاتف <span class="required">*</span></label>
+                    <input type="tel" id="phone" name="phone" required pattern="[0-9]{11}" maxlength="11" placeholder="01XXXXXXXXX">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="grade">الفرقة <span class="required">*</span></label>
+                <select id="grade" name="grade" required>
+                    <option value="">اختر الفرقة</option>
+                    <option value="first">فرقة أولى</option>
+                    <option value="second">فرقة ثانية</option>
+                    <option value="third">فرقة ثالثة</option>
+                    <option value="fourth">فرقة رابعة</option>
+                </select>
+            </div>
+
+            <button type="submit" class="form-submit">إرسال البلاغ</button>
+        </form>
+
+        <div id="form-message" style="display: none; margin-top: 1.5rem; padding: 1rem; border-radius: 12px; text-align: center;"></div>
+    </div>
+
+    <div class="data-table-container fade-in-up" id="dataTableContainer">
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; margin-bottom: 1.5rem;">
+            <button type="button" class="view-data-btn" onclick="toggleDataTable()" style="background: var(--primary-gradient);">العودة للنموذج</button>
+            <button type="button" class="view-data-btn" onclick="exportToCSV()" style="background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);">تصدير البيانات (CSV)</button>
+        </div>
+        <div class="form-header">
+            <h1>البلاغات المحفوظة</h1>
+            <p>جميع البلاغات عن المشاكل المحفوظة</p>
+        </div>
+        <div id="tableWrapper"></div>
+    </div>
+
+    <script>
+        // دالة للحصول على البيانات من localStorage
+        function getStoredData() {
+            const data = localStorage.getItem('problemReports');
+            return data ? JSON.parse(data) : [];
+        }
+
+        // دالة لحفظ البيانات في localStorage
+        function saveData(formData) {
+            const reports = getStoredData();
+            const newReport = {
+                id: Date.now(),
+                ...formData,
+                status: 'pending',
+                reportDate: new Date().toLocaleString('ar-EG')
+            };
+            reports.push(newReport);
+            localStorage.setItem('problemReports', JSON.stringify(reports));
+        }
+
+        // دالة لحذف بيانات
+        function deleteData(id) {
+            if (confirm('هل أنت متأكد من حذف هذا البلاغ؟')) {
+                const reports = getStoredData();
+                const filtered = reports.filter(item => item.id !== id);
+                localStorage.setItem('problemReports', JSON.stringify(filtered));
+                displayDataTable();
+            }
+        }
+
+        // دالة لعرض الجدول
+        function displayDataTable() {
+            const reports = getStoredData();
+            const tableWrapper = document.getElementById('tableWrapper');
+            
+            if (reports.length === 0) {
+                tableWrapper.innerHTML = '<div class="no-data">لا توجد بلاغات محفوظة</div>';
+                return;
+            }
+
+            const gradeNames = {
+                'first': 'فرقة أولى',
+                'second': 'فرقة ثانية',
+                'third': 'فرقة ثالثة',
+                'fourth': 'فرقة رابعة'
+            };
+
+            let tableHTML = `
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>الاسم</th>
+                            <th>رقم القومي</th>
+                            <th>رقم الجلوس</th>
+                            <th>رقم الهاتف</th>
+                            <th>الفرقة</th>
+                            <th>وصف المشكلة</th>
+                            <th>تاريخ البلاغ</th>
+                            <th>إجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            reports.forEach((report, index) => {
+                tableHTML += `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${report.fullName || '-'}</td>
+                        <td>${report.nationalId || '-'}</td>
+                        <td>${report.seatNumber || '-'}</td>
+                        <td>${report.phone || '-'}</td>
+                        <td>${gradeNames[report.grade] || report.grade || '-'}</td>
+                        <td>${(report.problemDescription || '-').substring(0, 50)}${(report.problemDescription || '').length > 50 ? '...' : ''}</td>
+                        <td>${report.reportDate || '-'}</td>
+                        <td>
+                            <button class="delete-btn" onclick="deleteData(${report.id})">حذف</button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            tableHTML += `
+                    </tbody>
+                </table>
+            `;
+
+            tableWrapper.innerHTML = tableHTML;
+        }
+
+        // دالة لإظهار/إخفاء جدول البيانات
+        function toggleDataTable() {
+            const container = document.getElementById('dataTableContainer');
+            const formContainer = document.querySelector('.form-container');
+            
+            if (container.classList.contains('show')) {
+                container.classList.remove('show');
+                formContainer.style.display = 'block';
+            } else {
+                container.classList.add('show');
+                formContainer.style.display = 'none';
+                displayDataTable();
+            }
+        }
+
+        // دالة لتصدير البيانات كـ CSV
+        function exportToCSV() {
+            const reports = getStoredData();
+            if (reports.length === 0) {
+                alert('لا توجد بلاغات للتصدير');
+                return;
+            }
+
+            const gradeNames = {
+                'first': 'فرقة أولى',
+                'second': 'فرقة ثانية',
+                'third software': 'فرقة ثالثة برمجيات ',
+                'third networks': 'فرقة ثالثة شبكات ',
+                'fourth software': 'فرقة رابعة برمجيات ',
+                'fourth networks': 'فرقة رابعة شبكات' 
+            };
+
+            let csv = 'الاسم,رقم القومي,رقم الجلوس,رقم الهاتف,الفرقة,وصف المشكلة,تاريخ البلاغ\n';
+            
+            reports.forEach(report => {
+                csv += `"${report.fullName || ''}","${report.nationalId || ''}","${report.seatNumber || ''}","${report.phone || ''}","${gradeNames[report.grade] || report.grade || ''}","${(report.problemDescription || '').replace(/"/g, '""')}","${report.reportDate || ''}"\n`;
+            });
+
+            const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'problem_reports_' + new Date().getTime() + '.csv';
+            link.click();
+        }
+    </script>
+
+    <script>
+        // إضافة تحقق من صحة النموذج قبل الإرسال
+        document.getElementById('problemForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const fullName = document.getElementById('fullName').value.trim();
+            const nationalId = document.getElementById('nationalId').value.trim();
+            const seatNumber = document.getElementById('seatNumber').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const grade = document.getElementById('grade').value;
+            const problemDescription = document.getElementById('problemDescription').value.trim();
+            const messageDiv = document.getElementById('form-message');
+
+            // التحقق من صحة البيانات
+            let isValid = true;
+            let errorMessage = '';
+
+            if (!fullName) {
+                isValid = false;
+                errorMessage = 'يرجى إدخال الاسم';
+            }
+
+            if (isValid && nationalId.length !== 14) {
+                isValid = false;
+                errorMessage = 'الرقم القومي يجب أن يكون 14 رقم';
+            }
+
+            if (isValid && !seatNumber) {
+                isValid = false;
+                errorMessage = 'يرجى إدخال رقم الجلوس';
+            }
+
+            if (isValid && phone.length !== 11) {
+                isValid = false;
+                errorMessage = 'رقم الهاتف يجب أن يكون 11 رقم';
+            }
+
+            if (isValid && !grade) {
+                isValid = false;
+                errorMessage = 'يرجى اختيار الفرقة';
+            }
+
+            if (isValid && !problemDescription) {
+                isValid = false;
+                errorMessage = 'يرجى إدخال وصف المشكلة';
+            } else if (isValid && problemDescription.length < 10) {
+                isValid = false;
+                errorMessage = 'وصف المشكلة يجب أن يكون على الأقل 10 أحرف';
+            }
+
+            if (!isValid) {
+                messageDiv.style.display = 'block';
+                messageDiv.style.background = '#ef4444';
+                messageDiv.style.color = 'white';
+                messageDiv.innerHTML = '<h2>خطأ في إرسال البلاغ</h2><p>' + errorMessage + '</p>';
+                messageDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                return false;
+            }
+
+            // حفظ البيانات في localStorage
+            const formData = {
+                fullName: fullName,
+                nationalId: nationalId,
+                seatNumber: seatNumber,
+                phone: phone,
+                grade: grade,
+                problemDescription: problemDescription
+            };
+
+            saveData(formData);
+
+            // إذا كانت جميع البيانات صحيحة، عرض رسالة النجاح
+            messageDiv.style.display = 'block';
+            messageDiv.style.background = '#10b981';
+            messageDiv.style.color = 'white';
+            messageDiv.innerHTML = '<h2>تم إرسال البلاغ بنجاح!</h2><p>شكراً لك، سيتم مراجعة بلاغك قريباً.</p>';
+            messageDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+            // هنا يمكنك إضافة كود لإرسال البيانات إلى الخادم
+            // على سبيل المثال: استخدام fetch API لإرسال البيانات
+            
+            // إعادة تعيين النموذج بعد 3 ثواني
+            setTimeout(function() {
+                document.getElementById('problemForm').reset();
+                messageDiv.style.display = 'none';
+            }, 3000);
+
+            return false;
+        });
+    </script>
+</body>
+</html>

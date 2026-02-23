@@ -5,16 +5,16 @@
 
 // Application URLs configuration
 const APPLICATION_URLS = {
-    grade1: 'https://batechu.it-club.top/applications/create',
+    grade1: 'https://batechu.com/applications/create',
     grade2: 'https://batechu.com/grade-two-applications/create',
     grade3: 'https://batechu.com/grade-three-applications/create',
     grade4: 'https://batechu.com/grade-four-applications/create',
-    coordinationResult: 'https://batechu.it-club.top/applications/coordination-result',
-    updateStudentData: 'https://batechu.it-club.top/applications/update-student-data',
-    complaints: 'https://forms.gle/BdLbTkaWogQHpduZ8',
-    instapay: 'https://ipn.eg/S/ahmedgadmeeza/instapay/71my1N',
+    complaints: 'Problem.htm',
     vodafoneCash: 'https://vf.eg/vfcash?id=mt&qrId=vreiwg',
-    signUpAfterPayment: 'https://forms.gle/QRXBAxtk1UwCVCzW6'
+    signUpAfterPayment: 'https://forms.gle/QRXBAxtk1UwCVCzW6',
+    // الدفع: محفظة (عرض الرقم) أو انستا باي (رابط)
+    walletPhoneNumber: '01019747118',
+    instaPayUrl: 'https://ipn.eg/S/ahmedgadmeeza/instapay/71my1N'
 };
 
 /**
@@ -116,6 +116,89 @@ function addButtonListener(buttonId, callback) {
 }
 
 /**
+ * Payment modal: open
+ */
+function openPaymentModal() {
+    const modal = document.getElementById('payment-modal');
+    if (!modal) return;
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    document.getElementById('payment-modal-close').focus();
+}
+
+/**
+ * Payment modal: close
+ */
+function closePaymentModal() {
+    const modal = document.getElementById('payment-modal');
+    if (!modal) return;
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+}
+
+/**
+ * Redirect to Tap by payment method (wallets or instapay)
+ */
+function goToTapPayment(method) {
+    closePaymentModal();
+    if (method === 'wallets') {
+        var num = APPLICATION_URLS.walletPhoneNumber;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(num).then(function () {
+                alert('رقم المحفظة: ' + num + '\n\nتم نسخ الرقم للحافظة.');
+            }).catch(function () {
+                alert('رقم المحفظة: ' + num);
+            });
+        } else {
+            alert('رقم المحفظة: ' + num);
+        }
+    } else {
+        var url = APPLICATION_URLS.instaPayUrl;
+        if (url) {
+            showButtonLoader();
+            setTimeout(function () {
+                window.location.href = url;
+            }, 200);
+        }
+    }
+}
+
+/**
+ * Initialize payment modal (Tap: محافظ إلكترونية / انستا باي)
+ */
+function initializePaymentModal() {
+    const triggerBtn = document.getElementById('payment-btn1');
+    const modal = document.getElementById('payment-modal');
+    const backdrop = document.getElementById('payment-modal-backdrop');
+    const closeBtn = document.getElementById('payment-modal-close');
+    const walletBtn = document.getElementById('payment-method-wallets');
+    const instaPayBtn = document.getElementById('payment-method-instapay');
+
+    if (!triggerBtn || !modal) return;
+
+    triggerBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        openPaymentModal();
+    });
+
+    function close() {
+        closePaymentModal();
+    }
+
+    if (backdrop) backdrop.addEventListener('click', close);
+    if (closeBtn) closeBtn.addEventListener('click', close);
+
+    modal.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') close();
+    });
+
+    if (walletBtn) walletBtn.addEventListener('click', function () { goToTapPayment('wallets'); });
+    if (instaPayBtn) instaPayBtn.addEventListener('click', function () { goToTapPayment('instapay'); });
+}
+
+/**
  * Initialize all buttons
  */
 function initializeButtons() {
@@ -126,16 +209,11 @@ function initializeButtons() {
     addButtonListener('btn4', () => redirectToUrl(APPLICATION_URLS.grade4, 'btn4'));
     
     // Coordination results buttons
-    addButtonListener('coordination-btn1', () => redirectToUrl(APPLICATION_URLS.coordinationResult, 'coordination-btn1'));
-    addButtonListener('coordination-btn2', () => redirectToUrl(APPLICATION_URLS.updateStudentData, 'coordination-btn2'));
-    
     // Complaints button
     addButtonListener('complaints-btn', () => redirectToUrl(APPLICATION_URLS.complaints, 'complaints-btn'));
-    
-    // Payment buttons (commented out - only initialize if payment section is enabled)
-    // addButtonListener('instapay-btn', () => redirectToUrl(APPLICATION_URLS.instapay, 'instapay-btn'));
-    // addButtonListener('vodafone-cash-btn', () => redirectToUrl(APPLICATION_URLS.vodafoneCash, 'vodafone-cash-btn'));
-    // addButtonListener('sign-up-btn', () => redirectToUrl(APPLICATION_URLS.signUpAfterPayment, 'sign-up-btn'));
+
+    // Payment: open Tap modal (اضغط هنا للدفع)
+    initializePaymentModal();
 }
 
 /**
@@ -148,6 +226,7 @@ function initializePage() {
         initPage();
     }
 }
+
 
 /**
  * Main initialization
