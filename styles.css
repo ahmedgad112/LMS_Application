@@ -191,8 +191,11 @@ body {
     box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
 }
 
-.skip-link:focus {
+.skip-link:focus,
+.skip-link:focus-visible {
     top: 0;
+    outline: 2px solid white;
+    outline-offset: 2px;
 }
 
 /* ============================================
@@ -424,7 +427,11 @@ button:active {
 }
 
 button:focus {
-    outline: 3px solid rgba(16, 185, 129, 0.4);
+    outline: none;
+}
+
+button:focus-visible {
+    outline: 3px solid rgba(16, 185, 129, 0.5);
     outline-offset: 3px;
 }
 
@@ -506,19 +513,6 @@ button.loading {
 /* ============================================
    Section-Specific Styles
    ============================================ */
-#coordination-results-section {
-    background: linear-gradient(135deg, rgba(239, 246, 255, 0.95) 0%, rgba(219, 234, 254, 0.95) 100%);
-    border-color: rgba(59, 130, 246, 0.3);
-}
-
-#coordination-results-section::before {
-    background: var(--secondary-gradient);
-}
-
-#coordination-results-section:hover {
-    border-color: rgba(59, 130, 246, 0.5);
-}
-
 #complaints-section {
     background: linear-gradient(135deg, rgba(254, 242, 242, 0.95) 0%, rgba(254, 226, 226, 0.95) 100%);
     border-color: rgba(239, 68, 68, 0.3);
@@ -530,6 +524,14 @@ button.loading {
 
 #complaints-section:hover {
     border-color: rgba(239, 68, 68, 0.5);
+}
+
+#complaints-section .button-grid {
+    max-width: 100%;
+}
+
+#complaints-section .button-grid button {
+    width: 100%;
 }
 
 /* ============================================
@@ -653,6 +655,15 @@ button.loading {
     background: rgba(255, 255, 255, 0.35);
 }
 
+.payment-modal-close:focus {
+    outline: none;
+}
+
+.payment-modal-close:focus-visible {
+    outline: 2px solid white;
+    outline-offset: 2px;
+}
+
 .payment-modal-body {
     padding: 1.5rem;
 }
@@ -694,7 +705,11 @@ button.loading {
 }
 
 .payment-method-card:focus {
-    outline: 3px solid rgba(245, 158, 11, 0.5);
+    outline: none;
+}
+
+.payment-method-card:focus-visible {
+    outline: 3px solid rgba(245, 158, 11, 0.6);
     outline-offset: 2px;
 }
 
@@ -735,11 +750,6 @@ button.loading {
 
     #buttons-section .button-grid {
         grid-template-columns: repeat(4, 1fr);
-    }
-
-    #coordination-results-section .button-grid,
-    #complaints-section .button-grid {
-        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     }
 
     .section-header h2 {

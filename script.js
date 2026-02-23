@@ -1,18 +1,14 @@
 /**
- * جامعة برج العرب - Simple Landing Page
- * Clean and simple functionality
+ * جامعة برج العرب - الصفحة الرئيسية
+ * التقديم حسب الفرقة، الدفع (محفظة / انستا باي)، الشكاوى
  */
 
-// Application URLs configuration
 const APPLICATION_URLS = {
     grade1: 'https://batechu.com/applications/create',
     grade2: 'https://batechu.com/grade-two-applications/create',
     grade3: 'https://batechu.com/grade-three-applications/create',
     grade4: 'https://batechu.com/grade-four-applications/create',
     complaints: 'Problem.htm',
-    vodafoneCash: 'https://vf.eg/vfcash?id=mt&qrId=vreiwg',
-    signUpAfterPayment: 'https://forms.gle/QRXBAxtk1UwCVCzW6',
-    // الدفع: محفظة (عرض الرقم) أو انستا باي (رابط)
     walletPhoneNumber: '01019747118',
     instaPayUrl: 'https://ipn.eg/S/ahmedgadmeeza/instapay/71my1N'
 };
@@ -139,12 +135,12 @@ function closePaymentModal() {
 }
 
 /**
- * Redirect to Tap by payment method (wallets or instapay)
+ * معالجة اختيار طريقة الدفع: محفظة (عرض الرقم) أو انستا باي (انتقال للرابط)
  */
 function goToTapPayment(method) {
     closePaymentModal();
     if (method === 'wallets') {
-        var num = APPLICATION_URLS.walletPhoneNumber;
+        const num = APPLICATION_URLS.walletPhoneNumber;
         if (navigator.clipboard && navigator.clipboard.writeText) {
             navigator.clipboard.writeText(num).then(function () {
                 alert('رقم المحفظة: ' + num + '\n\nتم نسخ الرقم للحافظة.');
@@ -155,18 +151,16 @@ function goToTapPayment(method) {
             alert('رقم المحفظة: ' + num);
         }
     } else {
-        var url = APPLICATION_URLS.instaPayUrl;
+        const url = APPLICATION_URLS.instaPayUrl;
         if (url) {
             showButtonLoader();
-            setTimeout(function () {
-                window.location.href = url;
-            }, 200);
+            setTimeout(function () { window.location.href = url; }, 200);
         }
     }
 }
 
 /**
- * Initialize payment modal (Tap: محافظ إلكترونية / انستا باي)
+ * تهيئة نافذة اختيار طريقة الدفع (محفظة / انستا باي)
  */
 function initializePaymentModal() {
     const triggerBtn = document.getElementById('payment-btn1');
@@ -183,15 +177,14 @@ function initializePaymentModal() {
         openPaymentModal();
     });
 
-    function close() {
+    function closeModal() {
         closePaymentModal();
     }
 
-    if (backdrop) backdrop.addEventListener('click', close);
-    if (closeBtn) closeBtn.addEventListener('click', close);
-
+    if (backdrop) backdrop.addEventListener('click', closeModal);
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
     modal.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape') close();
+        if (e.key === 'Escape') closeModal();
     });
 
     if (walletBtn) walletBtn.addEventListener('click', function () { goToTapPayment('wallets'); });
@@ -199,49 +192,27 @@ function initializePaymentModal() {
 }
 
 /**
- * Initialize all buttons
+ * ربط أزرار الصفحة
  */
 function initializeButtons() {
-    // Grade application buttons
     addButtonListener('btn1', () => redirectToUrl(APPLICATION_URLS.grade1, 'btn1'));
     addButtonListener('btn2', () => redirectToUrl(APPLICATION_URLS.grade2, 'btn2'));
     addButtonListener('btn3', () => redirectToUrl(APPLICATION_URLS.grade3, 'btn3'));
     addButtonListener('btn4', () => redirectToUrl(APPLICATION_URLS.grade4, 'btn4'));
-    
-    // Coordination results buttons
-    // Complaints button
     addButtonListener('complaints-btn', () => redirectToUrl(APPLICATION_URLS.complaints, 'complaints-btn'));
-
-    // Payment: open Tap modal (اضغط هنا للدفع)
     initializePaymentModal();
 }
 
 /**
- * Initialize page
- */
-function initializePage() {
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initPage);
-    } else {
-        initPage();
-    }
-}
-
-
-/**
- * Main initialization
+ * تهيئة الصفحة عند جاهزية DOM
  */
 function initPage() {
-    // Hide loader
-    setTimeout(() => {
-        hidePageLoader();
-    }, 500);
-
-    // Initialize buttons
+    setTimeout(hidePageLoader, 500);
     initializeButtons();
-
-    console.log('Page loaded successfully');
 }
 
-// Start
-initializePage();
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initPage);
+} else {
+    initPage();
+}
